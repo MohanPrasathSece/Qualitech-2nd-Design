@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, ArrowRight, Sparkles, CheckCircle2, ShieldCheck } from "lucide-react";
+import { ChevronDown, ArrowRight, Sparkles, X } from "lucide-react";
 import { useProducts, formatINR } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import type { Product } from "@/data/products";
 
 // Fallback image assets
 import connectorsImg from "@/assets/connectors.jpg";
@@ -262,20 +261,27 @@ export function ProductMegaMenu({
     productId?: string;
   } | null>(null);
 
-  const handleMouseEnterCategory = (cat: MegaCategory) => {
-    setOpenMenu(cat.id);
-    // Initialize preview with the first item in the category
-    const firstItem = cat.subcategories[0]?.items[0];
-    if (firstItem) {
-      const prod = firstItem.productId ? getProduct(firstItem.productId) : undefined;
-      setHoveredPreview({
-        name: firstItem.name,
-        code: firstItem.previewCode || prod?.code || "QTC-SERIES",
-        desc: firstItem.previewDesc || prod?.shortDescription || "High-reliability industrial interconnect.",
-        image: prod?.images[0] || firstItem.previewImage || connectorsImg,
-        price: prod?.price,
-        productId: firstItem.productId,
-      });
+  const handleToggleCategory = (cat: MegaCategory) => {
+    if (openMenu === cat.id) {
+      setOpenMenu(null);
+    } else {
+      setOpenMenu(cat.id);
+      if (cat.categoryFilter) {
+        onSelectCategory(cat.categoryFilter);
+      }
+      // Initialize preview with the first item in the category
+      const firstItem = cat.subcategories[0]?.items[0];
+      if (firstItem) {
+        const prod = firstItem.productId ? getProduct(firstItem.productId) : undefined;
+        setHoveredPreview({
+          name: firstItem.name,
+          code: firstItem.previewCode || prod?.code || "QTC-SERIES",
+          desc: firstItem.previewDesc || prod?.shortDescription || "High-reliability industrial interconnect.",
+          image: prod?.images[0] || firstItem.previewImage || connectorsImg,
+          price: prod?.price,
+          productId: firstItem.productId,
+        });
+      }
     }
   };
 
@@ -294,12 +300,9 @@ export function ProductMegaMenu({
   const activeMega = megaCategories.find((m) => m.id === openMenu);
 
   return (
-    <div
-      className="relative z-30 mb-8 rounded-2xl border border-border/80 bg-card/90 backdrop-blur-xl shadow-lg"
-      onMouseLeave={() => setOpenMenu(null)}
-    >
+    <div className="relative mb-8 rounded-3xl border border-border/80 bg-card shadow-lg transition-all duration-300">
       {/* Category Nav Tab Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-1 border-b border-border/60 p-2 sm:p-3">
+      <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 sm:p-3.5">
         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
           <button
             onClick={() => {
@@ -317,53 +320,58 @@ export function ProductMegaMenu({
           </button>
 
           {megaCategories.map((cat) => (
-            <div
+            <button
               key={cat.id}
-              className="relative"
-              onMouseEnter={() => handleMouseEnterCategory(cat)}
+              onClick={() => handleToggleCategory(cat)}
+              className={cn(
+                "group flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-300",
+                openMenu === cat.id
+                  ? "bg-brand-blue text-white shadow-md"
+                  : activeCategory.toLowerCase() === (cat.categoryFilter || "").toLowerCase()
+                  ? "bg-graphite text-white shadow-sm"
+                  : "text-muted-foreground hover:bg-platinum hover:text-foreground"
+              )}
             >
-              <button
-                onClick={() => {
-                  if (cat.categoryFilter) onSelectCategory(cat.categoryFilter);
-                }}
+              <span>{cat.label}</span>
+              <ChevronDown
                 className={cn(
-                  "group flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-300",
-                  openMenu === cat.id
-                    ? "bg-brand-blue text-white shadow-md"
-                    : activeCategory === cat.categoryFilter
-                    ? "bg-graphite text-white shadow-sm"
-                    : "text-muted-foreground hover:bg-platinum hover:text-foreground"
+                  "size-3.5 transition-transform duration-300 opacity-70 group-hover:opacity-100",
+                  openMenu === cat.id && "rotate-180"
                 )}
-              >
-                <span>{cat.label}</span>
-                <ChevronDown
-                  className={cn(
-                    "size-3.5 transition-transform duration-300 opacity-70 group-hover:opacity-100",
-                    openMenu === cat.id && "rotate-180"
-                  )}
-                />
-              </button>
-            </div>
+              />
+            </button>
           ))}
         </div>
 
-        <Link
-          to="/contact?intent=quote"
-          className="hidden items-center gap-2 rounded-xl bg-platinum px-4 py-2 text-xs font-bold text-foreground transition-all duration-300 hover:bg-brand-blue hover:text-white lg:inline-flex"
-        >
-          <Sparkles className="size-3.5" />
-          <span>Custom Quoting</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          {openMenu && (
+            <button
+              onClick={() => setOpenMenu(null)}
+              className="flex items-center gap-1 rounded-xl border border-border bg-platinum px-3 py-2 text-xs font-bold text-muted-foreground hover:text-foreground hover:bg-chrome transition-all"
+            >
+              <X className="size-3.5" />
+              <span>Close Menu</span>
+            </button>
+          )}
+
+          <Link
+            to="/contact?intent=quote"
+            className="hidden items-center gap-2 rounded-xl bg-platinum px-4 py-2 text-xs font-bold text-foreground transition-all duration-300 hover:bg-brand-blue hover:text-white sm:inline-flex"
+          >
+            <Sparkles className="size-3.5" />
+            <span>Custom Quoting</span>
+          </Link>
+        </div>
       </div>
 
-      {/* Interactive Mega-Dropdown Panel on Hover */}
+      {/* In-Flow Expanding Mega-Dropdown Panel (No absolute overlap!) */}
       {openMenu && activeMega && (
-        <div className="absolute left-0 top-full mt-2 w-full overflow-hidden rounded-3xl border border-border/80 bg-card p-6 lg:p-8 shadow-2xl backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-300 z-50">
+        <div className="border-t border-border/80 bg-background/50 p-6 lg:p-8 rounded-b-3xl animate-in fade-in slide-in-from-top-2 duration-300">
           <div className="grid gap-8 lg:grid-cols-12 items-start">
             {/* Left Preview Column: Dynamic Live Image & Specs Card */}
             <div className="lg:col-span-4">
-              <div className="overflow-hidden rounded-2xl border border-border bg-platinum/50 p-4 shadow-sm transition-all duration-300">
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-white shadow-xs">
+              <div className="overflow-hidden rounded-2xl border border-border bg-card p-4 shadow-sm transition-all duration-300">
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-platinum">
                   {hoveredPreview?.image ? (
                     <img
                       src={hoveredPreview.image}
@@ -394,8 +402,7 @@ export function ProductMegaMenu({
                     {hoveredPreview?.productId ? (
                       <Link
                         to={`/products/${hoveredPreview.productId}`}
-                        onClick={() => setOpenMenu(null)}
-                        className="inline-flex items-center gap-1.5 rounded-xl bg-brand-blue px-3 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-graphite"
+                        className="inline-flex items-center gap-1.5 rounded-xl bg-brand-blue px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-graphite"
                       >
                         <span>View Specs</span>
                         <ArrowRight className="size-3" />
@@ -404,9 +411,8 @@ export function ProductMegaMenu({
                       <button
                         onClick={() => {
                           if (activeMega.categoryFilter) onSelectCategory(activeMega.categoryFilter);
-                          setOpenMenu(null);
                         }}
-                        className="inline-flex items-center gap-1.5 rounded-xl bg-graphite px-3 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-brand-blue"
+                        className="inline-flex items-center gap-1.5 rounded-xl bg-graphite px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-brand-blue"
                       >
                         <span>Filter Category</span>
                         <ArrowRight className="size-3" />
@@ -430,7 +436,6 @@ export function ProductMegaMenu({
                         {item.productId ? (
                           <Link
                             to={`/products/${item.productId}`}
-                            onClick={() => setOpenMenu(null)}
                             onMouseEnter={() => handleHoverItem(item)}
                             className="group flex items-center justify-between rounded-xl px-3 py-2 text-xs sm:text-sm font-medium text-foreground transition-all duration-200 hover:bg-brand-blue/10 hover:text-brand-blue hover:pl-4"
                           >
@@ -449,7 +454,6 @@ export function ProductMegaMenu({
                             onClick={() => {
                               if (item.categoryParam) onSelectCategory(item.categoryParam);
                               else if (activeMega.categoryFilter) onSelectCategory(activeMega.categoryFilter);
-                              setOpenMenu(null);
                             }}
                             onMouseEnter={() => handleHoverItem(item)}
                             className="group flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs sm:text-sm font-medium text-foreground transition-all duration-200 hover:bg-brand-blue/10 hover:text-brand-blue hover:pl-4"
