@@ -11,14 +11,11 @@ export const company = {
 
 export const nav = [
   { label: "Home", to: "/" },
-  { label: "Connectors", to: "/products?category=Connectors" },
-  { label: "Cables", to: "/products?category=Cables" },
-  { label: "Fiber Optics", to: "/products?category=Fiber+Optics" },
-  { label: "Antennas", to: "/products?category=Antennas" },
-  { label: "Applications", to: "/solutions" },
-  { label: "Facilities", to: "/facilities" },
   { label: "About Us", to: "/about" },
-  { label: "Contact Us", to: "/contact" },
+  { label: "Solutions", to: "/solutions" },
+  { label: "Facilities", to: "/facilities" },
+  { label: "Products", to: "/products" },
+  { label: "Contact", to: "/contact" },
 ] as const;
 
 export const stats = [
