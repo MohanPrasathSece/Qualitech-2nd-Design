@@ -258,8 +258,8 @@ export function ProductMegaMenu({
     code: string;
     desc: string;
     image: string;
-    price?: number | null;
-    productId?: string;
+    price?: number | null | undefined;
+    productId?: string | undefined;
   } | null>(null);
 
   const handleMouseEnterTab = (cat: MegaCategory) => {
