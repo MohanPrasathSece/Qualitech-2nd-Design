@@ -29,13 +29,14 @@ export function Header() {
       <header
         className={cn(
           "pointer-events-auto mx-auto max-w-[1400px] rounded-2xl sm:rounded-3xl border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          "bg-white/15 hover:bg-white/20 backdrop-blur-2xl shadow-xl shadow-black/10",
           scrolled
-            ? "border-white/15 bg-graphite/90 text-white shadow-2xl backdrop-blur-2xl py-2.5 px-4 sm:px-7"
-            : "border-white/10 bg-black/10 text-white backdrop-blur-md py-3 px-5 sm:px-8 shadow-lg shadow-black/5"
+            ? "border-white/40 bg-white/25 text-white shadow-2xl py-2.5 px-4 sm:px-7 backdrop-blur-3xl"
+            : "border-white/25 text-white py-3 px-5 sm:px-8 shadow-lg"
         )}
       >
         <div className="flex items-center justify-between gap-6">
-          {/* Logo with clean white background chip for contrast */}
+          {/* Logo with clean white background chip for crisp contrast */}
           <Link
             to="/"
             className="flex shrink-0 items-center transition-transform duration-300 hover:scale-[1.03] active:scale-95"
@@ -63,10 +64,10 @@ export function Header() {
                 className={({ isActive }) =>
                   cn(
                     "group relative rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300",
-                    "hover:bg-white/10 hover:text-white",
+                    "hover:bg-white/20 hover:text-white",
                     isActive
-                      ? "text-white bg-white/15 font-bold shadow-xs"
-                      : "text-white/80 hover:text-white"
+                      ? "text-white bg-white/25 font-bold shadow-xs backdrop-blur-md"
+                      : "text-white/85 hover:text-white"
                   )
                 }
               >
@@ -76,7 +77,7 @@ export function Header() {
                     {/* Animated Underline Glow */}
                     <span
                       className={cn(
-                        "absolute inset-x-3 -bottom-0.5 h-[2.5px] rounded-full bg-brand-blue shadow-[0_0_8px_rgba(59,130,246,0.8)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                        "absolute inset-x-3 -bottom-0.5 h-[2.5px] rounded-full bg-cyan-300 shadow-[0_0_10px_rgba(103,232,249,0.9)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
                         isActive
                           ? "scale-x-100 opacity-100"
                           : "scale-x-0 opacity-0 group-hover:scale-x-75 group-hover:opacity-60"
@@ -93,7 +94,7 @@ export function Header() {
             {/* Cart Icon */}
             <Link
               to="/cart"
-              className="group relative grid size-11 place-items-center rounded-xl border border-white/15 bg-white/5 text-white transition-all duration-300 hover:border-brand-blue/60 hover:bg-brand-blue/20 hover:shadow-lg hover:scale-105 active:scale-95"
+              className="group relative grid size-11 place-items-center rounded-xl border border-white/25 bg-white/10 text-white transition-all duration-300 hover:border-white/50 hover:bg-white/25 hover:shadow-lg hover:scale-105 active:scale-95 backdrop-blur-md"
               aria-label="Cart"
             >
               <ShoppingCart className="size-[18px] transition-transform duration-300 group-hover:scale-110 text-white" />
@@ -108,8 +109,8 @@ export function Header() {
             <Link
               to="/contact?intent=quote"
               className={cn(
-                "hidden items-center gap-2 rounded-xl bg-white/90 px-5 text-sm font-bold text-graphite transition-all duration-300 shadow-md",
-                "hover:bg-white hover:shadow-xl hover:shadow-brand-blue/20 hover:scale-105 active:scale-95 md:inline-flex",
+                "hidden items-center gap-2 rounded-xl bg-white/95 px-5 text-sm font-bold text-graphite transition-all duration-300 shadow-md",
+                "hover:bg-white hover:shadow-xl hover:shadow-cyan-400/20 hover:scale-105 active:scale-95 md:inline-flex",
                 scrolled ? "h-10" : "h-11"
               )}
             >
@@ -121,7 +122,7 @@ export function Header() {
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              className="grid size-11 place-items-center rounded-xl border border-white/15 bg-white/5 text-white transition-all duration-300 hover:bg-white/15 active:scale-95 xl:hidden"
+              className="grid size-11 place-items-center rounded-xl border border-white/25 bg-white/10 text-white transition-all duration-300 hover:bg-white/25 active:scale-95 backdrop-blur-md xl:hidden"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
             >
@@ -148,7 +149,7 @@ export function Header() {
           className={cn(
             "overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] xl:hidden",
             open
-              ? "mt-4 max-h-[500px] border-t border-white/15 pt-3 opacity-100 bg-graphite/95 rounded-2xl p-4 shadow-2xl backdrop-blur-2xl"
+              ? "mt-4 max-h-[500px] border-t border-white/20 pt-3 opacity-100 bg-black/40 rounded-2xl p-4 shadow-2xl backdrop-blur-3xl"
               : "max-h-0 border-t-0 pt-0 opacity-0"
           )}
         >
@@ -158,7 +159,7 @@ export function Header() {
                 key={item.to}
                 to={item.to}
                 onClick={() => setOpen(false)}
-                className="rounded-xl px-3 py-2.5 text-sm font-medium text-white/90 transition-all duration-300 hover:bg-white/10 hover:text-white hover:pl-4"
+                className="rounded-xl px-3 py-2.5 text-sm font-medium text-white/95 transition-all duration-300 hover:bg-white/20 hover:text-white hover:pl-4"
                 style={{ transitionDelay: open ? `${i * 35}ms` : "0ms" }}
               >
                 {item.label}
