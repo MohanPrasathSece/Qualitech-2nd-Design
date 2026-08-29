@@ -856,15 +856,6 @@ Responsive at all screen sizes.
 
 The final result should look like a premium custom website designed specifically for Qualitech Connectronics, NOT an AI-generated template.
 
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/9928d2c1-aa3e-46c5-8887-fdaff2350c0d).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 

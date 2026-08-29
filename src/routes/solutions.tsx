@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { ArrowRight, Cable, Layers, Plug, Ruler, Scissors, Wrench } from "lucide-react";
 import cableAssemblies from "@/assets/cable-assemblies.jpg";
 import connectors from "@/assets/connectors.jpg";
@@ -6,25 +6,6 @@ import hero from "@/assets/hero-harness.jpg";
 import { PageHero } from "@/components/site/PageHero";
 import { Reveal } from "@/components/site/Reveal";
 import { categories } from "@/data/products";
-
-export const Route = createFileRoute("/solutions")({
-  head: () => ({
-    meta: [
-      { title: "Solutions — Wire Harnesses, Cable Assemblies & Connectors" },
-      {
-        name: "description",
-        content:
-          "Custom wire harnesses, ribbon and circular cable assemblies, and connector supply across DSUB, DIN (EURO), IDC (FRC) and HARTING series.",
-      },
-      { property: "og:title", content: "Qualitech Solutions — Harnesses, Assemblies, Connectors" },
-      {
-        property: "og:description",
-        content: "Application-specific interconnect solutions built to customer drawings.",
-      },
-    ],
-  }),
-  component: Solutions;
-});
 
 const blocks = [
   {
@@ -57,7 +38,7 @@ const process = [
   { icon: Layers, title: "Check & Dispatch", body: "Continuity and workmanship checks before packing and supply." },
 ];
 
-function Solutions() {
+export default function Solutions() {
   return (
     <>
       <PageHero
@@ -79,7 +60,7 @@ function Solutions() {
                 src={b.image}
                 alt={b.title}
                 loading="lazy"
-                className="aspect-[16/10] w-full rounded-sm object-cover grayscale"
+                className="aspect-[16/10] w-full rounded-xl object-cover grayscale"
               />
               <div>
                 <b.icon className="size-6 text-foreground" />
@@ -107,7 +88,7 @@ function Solutions() {
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {process.map((s, i) => (
               <Reveal key={s.title} delay={i * 100}>
-                <div className="h-full rounded-sm border border-border bg-card p-7">
+                <div className="h-full rounded-xl border border-border bg-card p-7">
                   <p className="label-tech text-muted-foreground">Step {String(i + 1).padStart(2, "0")}</p>
                   <s.icon className="mt-5 size-6 text-foreground" />
                   <h3 className="mt-4 text-lg font-bold text-foreground">{s.title}</h3>
@@ -127,18 +108,16 @@ function Solutions() {
             {categories.map((c) => (
               <Link
                 key={c}
-                to="/products"
-                search={{ category: c }}
-                className="rounded-sm border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
+                to={`/products?category=${encodeURIComponent(c)}`}
+                className="rounded-xl border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
               >
                 {c}
               </Link>
             ))}
           </div>
           <Link
-            to="/contact"
-            search={{ intent: "quote" }}
-            className="mt-10 inline-flex h-12 items-center gap-2 rounded-sm bg-graphite px-7 text-sm font-semibold text-primary-foreground transition-colors hover:bg-steel"
+            to="/contact?intent=quote"
+            className="mt-10 inline-flex h-12 items-center gap-2 rounded-xl bg-graphite px-7 text-sm font-semibold text-primary-foreground transition-colors hover:bg-steel"
           >
             Request a quote <ArrowRight className="size-4" />
           </Link>

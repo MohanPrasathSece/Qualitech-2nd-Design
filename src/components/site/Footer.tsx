@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import logo from "@/assets/qualitech-logo.png.asset.json";
+import { Link } from "react-router-dom";
+import logo from "@/assets/logo.png";
 import { categories } from "@/data/products";
 import { company, nav } from "@/data/site";
 
@@ -10,9 +10,9 @@ export function Footer() {
         <div className="mx-auto max-w-[1400px] px-5 py-16 lg:px-10 lg:py-20">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-4">
-              <div className="inline-flex bg-white px-3 py-2">
+              <div className="inline-flex rounded-xl bg-white px-4 py-2.5 transition-shadow duration-300 hover:shadow-lg">
                 <img
-                  src={logo.url}
+                  src={logo}
                   alt="Qualitech Connectronics Private Limited"
                   className="h-10 w-auto"
                   loading="lazy"
@@ -31,7 +31,10 @@ export function Footer() {
               <ul className="mt-5 space-y-3 text-sm">
                 {nav.map((item) => (
                   <li key={item.to}>
-                    <Link to={item.to} className="transition-colors hover:text-white">
+                    <Link
+                      to={item.to}
+                      className="transition-all duration-300 hover:text-white hover:pl-1"
+                    >
                       {item.label}
                     </Link>
                   </li>
@@ -45,9 +48,8 @@ export function Footer() {
                 {categories.map((c) => (
                   <li key={c}>
                     <Link
-                      to="/products"
-                      search={{ category: c }}
-                      className="transition-colors hover:text-white"
+                      to={`/products?category=${encodeURIComponent(c)}`}
+                      className="transition-all duration-300 hover:text-white hover:pl-1"
                     >
                       {c}
                     </Link>
@@ -67,7 +69,7 @@ export function Footer() {
                 <div className="flex gap-2">
                   <dt className="text-white/40">Phone</dt>
                   <dd>
-                    <a href={`tel:${company.phone}`} className="hover:text-white">
+                    <a href={`tel:${company.phone}`} className="transition-colors duration-300 hover:text-white">
                       {company.phone}
                     </a>
                   </dd>
@@ -79,7 +81,7 @@ export function Footer() {
                 <div className="flex gap-2">
                   <dt className="text-white/40">Email</dt>
                   <dd>
-                    <a href={`mailto:${company.email}`} className="hover:text-white">
+                    <a href={`mailto:${company.email}`} className="transition-colors duration-300 hover:text-white">
                       {company.email}
                     </a>
                   </dd>

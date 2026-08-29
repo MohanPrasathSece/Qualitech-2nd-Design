@@ -1,7 +1,7 @@
-import { Link } from "@tanstack/react-router";
-import { Menu, ShoppingCart, X } from "lucide-react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { Menu, ShoppingCart, X, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import logo from "@/assets/qualitech-logo.png.asset.json";
+import logo from "@/assets/logo.png";
 import { nav } from "@/data/site";
 import { useCart } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -10,103 +10,170 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { count } = useCart();
+  const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close mobile drawer on route change
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
+
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 border-b border-border/80 bg-background/85 backdrop-blur-xl transition-all duration-300",
-        scrolled ? "shadow-panel" : "",
-      )}
-    >
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-6 px-5 lg:px-10">
-        <Link to="/" className="flex shrink-0 items-center" aria-label={`${"Qualitech Connectronics"} home`}>
-          <img
-            src={logo.url}
-            alt="Qualitech Connectronics Private Limited"
-            className={cn("w-auto transition-all duration-300", scrolled ? "h-9" : "h-12")}
-          />
-        </Link>
-
-        <nav className="hidden items-center gap-1 xl:flex">
-          {nav.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              className="relative px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground data-[status=active]:text-foreground"
-            >
-              {item.label}
-              <span className="absolute inset-x-3 -bottom-px hidden h-px bg-graphite data-[status=active]:block" />
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
+    <div className="sticky top-0 z-50 w-full px-3 py-3 sm:px-6 sm:py-4 transition-all duration-500 pointer-events-none">
+      <header
+        className={cn(
+          "pointer-events-auto mx-auto max-w-[1400px] rounded-2xl sm:rounded-3xl border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          scrolled
+            ? "border-white/15 bg-graphite/85 text-white shadow-2xl backdrop-blur-2xl py-2.5 px-4 sm:px-7"
+            : "border-white/10 bg-transparent text-white backdrop-blur-sm py-3 px-5 sm:px-8"
+        )}
+      >
+        <div className="flex items-center justify-between gap-6">
+          {/* Logo with clean white background chip for maximum crispness & contrast */}
           <Link
-            to="/cart"
-            className="relative grid size-10 place-items-center rounded-sm border border-border text-foreground transition-colors hover:bg-secondary"
-            aria-label="Cart"
+            to="/"
+            className="flex shrink-0 items-center transition-transform duration-300 hover:scale-[1.03] active:scale-95"
+            aria-label="Qualitech Connectronics home"
           >
-            <ShoppingCart className="size-4" />
-            {count > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 grid size-5 place-items-center rounded-full bg-graphite text-[10px] font-semibold text-primary-foreground">
-                {count}
-              </span>
-            )}
+            <div className="rounded-xl bg-white/95 px-3 py-1.5 shadow-sm transition-all duration-300 hover:bg-white hover:shadow-md">
+              <img
+                src={logo}
+                alt="Qualitech Connectronics Private Limited"
+                className={cn(
+                  "w-auto transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                  scrolled ? "h-8 sm:h-9" : "h-9 sm:h-11"
+                )}
+              />
+            </div>
           </Link>
-          <Link
-            to="/contact"
-            search={{ intent: "quote" }}
-            className={cn(
-              "hidden items-center rounded-sm bg-graphite px-5 text-sm font-semibold text-primary-foreground transition-all hover:bg-steel md:inline-flex",
-              scrolled ? "h-10" : "h-11",
-            )}
-          >
-            Request a Quote
-          </Link>
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            className="grid size-10 place-items-center rounded-sm border border-border xl:hidden"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-          >
-            {open ? <X className="size-4" /> : <Menu className="size-4" />}
-          </button>
-        </div>
-      </div>
 
-      {open && (
-        <div className="border-t border-border bg-background xl:hidden">
-          <nav className="mx-auto flex max-w-[1400px] flex-col px-5 py-3">
+          {/* Desktop Navigation Links */}
+          <nav className="hidden items-center gap-1 xl:flex">
             {nav.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === "/"}
+                className={({ isActive }) =>
+                  cn(
+                    "group relative rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300",
+                    "hover:bg-white/10 hover:text-white",
+                    isActive
+                      ? "text-white bg-white/10 font-bold shadow-xs"
+                      : "text-white/80 hover:text-white"
+                  )
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    {item.label}
+                    {/* Animated Underline Glow */}
+                    <span
+                      className={cn(
+                        "absolute inset-x-3 -bottom-0.5 h-[2.5px] rounded-full bg-brand-blue shadow-[0_0_8px_rgba(59,130,246,0.8)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                        isActive
+                          ? "scale-x-100 opacity-100"
+                          : "scale-x-0 opacity-0 group-hover:scale-x-75 group-hover:opacity-60"
+                      )}
+                    />
+                  </>
+                )}
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* Actions */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Cart Icon */}
+            <Link
+              to="/cart"
+              className="group relative grid size-11 place-items-center rounded-xl border border-white/15 bg-white/5 text-white transition-all duration-300 hover:border-brand-blue/60 hover:bg-brand-blue/20 hover:shadow-lg hover:scale-105 active:scale-95"
+              aria-label="Cart"
+            >
+              <ShoppingCart className="size-[18px] transition-transform duration-300 group-hover:scale-110 text-white" />
+              {count > 0 && (
+                <span className="absolute -right-1.5 -top-1.5 grid size-5 place-items-center rounded-full bg-brand-blue text-[10px] font-bold text-white shadow-md animate-in zoom-in duration-300">
+                  {count}
+                </span>
+              )}
+            </Link>
+
+            {/* Request a Quote Button */}
+            <Link
+              to="/contact?intent=quote"
+              className={cn(
+                "hidden items-center gap-2 rounded-xl bg-white/90 px-5 text-sm font-bold text-graphite transition-all duration-300 shadow-md",
+                "hover:bg-white hover:shadow-xl hover:shadow-brand-blue/20 hover:scale-105 active:scale-95 md:inline-flex",
+                scrolled ? "h-10" : "h-11"
+              )}
+            >
+              <span>Request a Quote</span>
+              <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+
+            {/* Mobile Menu Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              className="grid size-11 place-items-center rounded-xl border border-white/15 bg-white/5 text-white transition-all duration-300 hover:bg-white/15 active:scale-95 xl:hidden"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+            >
+              <div className="relative size-4">
+                <Menu
+                  className={cn(
+                    "absolute inset-0 size-4 transition-all duration-300",
+                    open ? "rotate-90 opacity-0 scale-75" : "rotate-0 opacity-100 scale-100"
+                  )}
+                />
+                <X
+                  className={cn(
+                    "absolute inset-0 size-4 transition-all duration-300",
+                    open ? "rotate-0 opacity-100 scale-100" : "-rotate-90 opacity-0 scale-75"
+                  )}
+                />
+              </div>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Dropdown Panel */}
+        <div
+          className={cn(
+            "overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] xl:hidden",
+            open
+              ? "mt-4 max-h-[500px] border-t border-white/15 pt-3 opacity-100 bg-graphite/95 rounded-2xl p-4 shadow-2xl backdrop-blur-2xl"
+              : "max-h-0 border-t-0 pt-0 opacity-0"
+          )}
+        >
+          <nav className="flex flex-col space-y-1">
+            {nav.map((item, i) => (
               <Link
                 key={item.to}
                 to={item.to}
                 onClick={() => setOpen(false)}
-                className="border-b border-border/60 py-3 text-sm font-medium text-foreground last:border-0"
+                className="rounded-xl px-3 py-2.5 text-sm font-medium text-white/90 transition-all duration-300 hover:bg-white/10 hover:text-white hover:pl-4"
+                style={{ transitionDelay: open ? `${i * 35}ms` : "0ms" }}
               >
                 {item.label}
               </Link>
             ))}
             <Link
-              to="/contact"
-              search={{ intent: "quote" }}
+              to="/contact?intent=quote"
               onClick={() => setOpen(false)}
-              className="mt-4 inline-flex h-11 items-center justify-center rounded-sm bg-graphite text-sm font-semibold text-primary-foreground"
+              className="mt-3 inline-flex h-11 items-center justify-center rounded-xl bg-white text-sm font-bold text-graphite shadow-lg transition-all duration-300 hover:bg-white/90"
             >
               Request a Quote
             </Link>
           </nav>
         </div>
-      )}
-    </header>
+      </header>
+    </div>
   );
 }

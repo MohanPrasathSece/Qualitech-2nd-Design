@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import factory from "@/assets/factory-floor.jpg";
 import cableAssemblies from "@/assets/cable-assemblies.jpg";
@@ -6,26 +6,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { Counter, Reveal } from "@/components/site/Reveal";
 import { company, companyCopy, stats, whyQualitech } from "@/data/site";
 
-export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Qualitech Connectronics — Harness Manufacturer Since 1995" },
-      {
-        name: "description",
-        content:
-          "Qualitech Connectronics was established in 1995 in Hyderabad and supplies custom wire harnesses and connectors to OEMs across telecom, power, defense and railways.",
-      },
-      { property: "og:title", content: "About Qualitech Connectronics" },
-      {
-        property: "og:description",
-        content: "Three decades of custom harness manufacturing and connector supply for OEMs.",
-      },
-    ],
-  }),
-  component: About,
-});
-
-function About() {
+export default function About() {
   return (
     <>
       <PageHero
@@ -54,7 +35,7 @@ function About() {
             src={cableAssemblies}
             alt="Terminated cable assemblies"
             loading="lazy"
-            className="aspect-[4/5] w-full rounded-sm object-cover grayscale"
+            className="aspect-[4/5] w-full rounded-xl object-cover grayscale"
           />
         </Reveal>
       </section>
@@ -82,7 +63,7 @@ function About() {
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {whyQualitech.map((w, i) => (
             <Reveal key={w.title} delay={i * 80}>
-              <div className="h-full rounded-sm border border-border bg-card p-7">
+              <div className="h-full rounded-xl border border-border bg-card p-7">
                 <CheckCircle2 className="size-5 text-foreground" />
                 <h3 className="mt-4 text-lg font-bold text-foreground">{w.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{w.body}</p>
@@ -93,7 +74,7 @@ function About() {
         <Reveal className="mt-14">
           <Link
             to="/facilities"
-            className="inline-flex h-12 items-center gap-2 rounded-sm bg-graphite px-7 text-sm font-semibold text-primary-foreground transition-colors hover:bg-steel"
+            className="inline-flex h-12 items-center gap-2 rounded-xl bg-graphite px-7 text-sm font-semibold text-primary-foreground transition-colors hover:bg-steel"
           >
             See our facilities <ArrowRight className="size-4" />
           </Link>
