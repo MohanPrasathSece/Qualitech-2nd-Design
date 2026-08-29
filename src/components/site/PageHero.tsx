@@ -11,7 +11,7 @@ interface PageHeroProps {
 
 export function PageHero({ eyebrow, title, lead, image }: PageHeroProps) {
   return (
-    <section className="brushed relative overflow-hidden">
+    <section className="brushed relative overflow-hidden pt-28 lg:pt-36">
       {image && (
         <img
           src={image}
@@ -24,14 +24,14 @@ export function PageHero({ eyebrow, title, lead, image }: PageHeroProps) {
         <div className="mx-auto max-w-[1400px] px-5 py-16 lg:px-10 lg:py-24">
           <Reveal>
             <nav className="flex items-center gap-2 text-xs text-white/50">
-              <Link to="/" className="hover:text-white">
+              <Link to="/" className="hover:text-white transition-colors">
                 Home
               </Link>
               <ChevronRight className="size-3" />
               <span className="text-white/80">{title}</span>
             </nav>
             <p className="label-tech mt-8 text-white/50">{eyebrow}</p>
-            <h1 className="mt-4 max-w-3xl text-4xl font-extrabold text-white lg:text-6xl">
+            <h1 className="mt-4 max-w-3xl text-4xl font-extrabold text-white lg:text-6xl tracking-tight">
               {title}
             </h1>
             {lead && <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/70">{lead}</p>}

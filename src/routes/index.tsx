@@ -177,7 +177,7 @@ export default function Home() {
   return (
     <div className="relative overflow-hidden">
       {/* Hero Section with Cinematic Glow and Ambient Lighting */}
-      <section className="brushed relative overflow-hidden -mt-24 pt-28 sm:pt-36 lg:pt-40 pb-24 lg:pb-32">
+      <section className="brushed relative overflow-hidden pt-28 sm:pt-36 lg:pt-44 pb-24 lg:pb-32">
         {/* Ambient background light orbs */}
         <div className="cinematic-orb pointer-events-none absolute -left-20 top-1/4 size-96 rounded-full bg-blue-500/20 blur-3xl" />
         <div className="cinematic-orb-alt pointer-events-none absolute right-0 top-1/3 size-[30rem] rounded-full bg-cyan-400/15 blur-3xl" />

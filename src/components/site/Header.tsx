@@ -25,17 +25,17 @@ export function Header() {
   }, [location.pathname]);
 
   return (
-    <div className="sticky top-0 z-50 w-full px-3 py-3 sm:px-6 sm:py-4 transition-all duration-500 pointer-events-none">
+    <div className="fixed top-0 inset-x-0 z-50 px-3 py-3 sm:px-6 sm:py-4 transition-all duration-500 pointer-events-none">
       <header
         className={cn(
           "pointer-events-auto mx-auto max-w-[1400px] rounded-2xl sm:rounded-3xl border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
           scrolled
-            ? "border-white/15 bg-graphite/85 text-white shadow-2xl backdrop-blur-2xl py-2.5 px-4 sm:px-7"
-            : "border-white/10 bg-transparent text-white backdrop-blur-sm py-3 px-5 sm:px-8"
+            ? "border-white/15 bg-graphite/90 text-white shadow-2xl backdrop-blur-2xl py-2.5 px-4 sm:px-7"
+            : "border-white/10 bg-black/10 text-white backdrop-blur-md py-3 px-5 sm:px-8 shadow-lg shadow-black/5"
         )}
       >
         <div className="flex items-center justify-between gap-6">
-          {/* Logo with clean white background chip for maximum crispness & contrast */}
+          {/* Logo with clean white background chip for contrast */}
           <Link
             to="/"
             className="flex shrink-0 items-center transition-transform duration-300 hover:scale-[1.03] active:scale-95"
@@ -65,7 +65,7 @@ export function Header() {
                     "group relative rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300",
                     "hover:bg-white/10 hover:text-white",
                     isActive
-                      ? "text-white bg-white/10 font-bold shadow-xs"
+                      ? "text-white bg-white/15 font-bold shadow-xs"
                       : "text-white/80 hover:text-white"
                   )
                 }

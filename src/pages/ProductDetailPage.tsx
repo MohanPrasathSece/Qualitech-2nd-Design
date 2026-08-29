@@ -39,7 +39,7 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="mx-auto max-w-[1400px] px-5 py-12 lg:px-10 lg:py-20">
+    <div className="mx-auto max-w-[1400px] px-5 pt-28 pb-16 lg:px-10 lg:pt-36 lg:pb-24">
       <Reveal>
         <Link to="/products" className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-foreground">
           <ArrowLeft className="size-4" /> Back to Catalogue
