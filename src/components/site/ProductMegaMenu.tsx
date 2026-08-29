@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, ArrowRight, Sparkles, X } from "lucide-react";
+import { ChevronDown, ArrowRight, Sparkles, X, CheckCircle2 } from "lucide-react";
 import { useProducts, formatINR } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -250,6 +250,7 @@ export function ProductMegaMenu({
 }) {
   const { getProduct } = useProducts();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Dynamic preview state when hovering items inside dropdown
   const [hoveredPreview, setHoveredPreview] = useState<{
@@ -261,28 +262,30 @@ export function ProductMegaMenu({
     productId?: string;
   } | null>(null);
 
-  const handleToggleCategory = (cat: MegaCategory) => {
-    if (openMenu === cat.id) {
-      setOpenMenu(null);
-    } else {
-      setOpenMenu(cat.id);
-      if (cat.categoryFilter) {
-        onSelectCategory(cat.categoryFilter);
-      }
-      // Initialize preview with the first item in the category
-      const firstItem = cat.subcategories[0]?.items[0];
-      if (firstItem) {
-        const prod = firstItem.productId ? getProduct(firstItem.productId) : undefined;
-        setHoveredPreview({
-          name: firstItem.name,
-          code: firstItem.previewCode || prod?.code || "QTC-SERIES",
-          desc: firstItem.previewDesc || prod?.shortDescription || "High-reliability industrial interconnect.",
-          image: prod?.images[0] || firstItem.previewImage || connectorsImg,
-          price: prod?.price,
-          productId: firstItem.productId,
-        });
-      }
+  const handleMouseEnterTab = (cat: MegaCategory) => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
     }
+    setOpenMenu(cat.id);
+    // Initialize preview with first item in category
+    const firstItem = cat.subcategories[0]?.items[0];
+    if (firstItem) {
+      const prod = firstItem.productId ? getProduct(firstItem.productId) : undefined;
+      setHoveredPreview({
+        name: firstItem.name,
+        code: firstItem.previewCode || prod?.code || "QTC-SERIES",
+        desc: firstItem.previewDesc || prod?.shortDescription || "High-reliability industrial interconnect.",
+        image: prod?.images[0] || firstItem.previewImage || connectorsImg,
+        price: prod?.price,
+        productId: firstItem.productId,
+      });
+    }
+  };
+
+  const handleMouseLeaveMenu = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setOpenMenu(null);
+    }, 250);
   };
 
   const handleHoverItem = (item: MegaCategory["subcategories"][0]["items"][0]) => {
@@ -300,7 +303,13 @@ export function ProductMegaMenu({
   const activeMega = megaCategories.find((m) => m.id === openMenu);
 
   return (
-    <div className="relative mb-8 rounded-3xl border border-border/80 bg-card shadow-lg transition-all duration-300">
+    <div
+      className="relative mb-8 rounded-3xl border border-border/80 bg-card shadow-lg transition-all duration-300"
+      onMouseEnter={() => {
+        if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+      }}
+      onMouseLeave={handleMouseLeaveMenu}
+    >
       {/* Category Nav Tab Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 sm:p-3.5">
         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
@@ -322,7 +331,11 @@ export function ProductMegaMenu({
           {megaCategories.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => handleToggleCategory(cat)}
+              onMouseEnter={() => handleMouseEnterTab(cat)}
+              onClick={() => {
+                if (cat.categoryFilter) onSelectCategory(cat.categoryFilter);
+                setOpenMenu(openMenu === cat.id ? null : cat.id);
+              }}
               className={cn(
                 "group flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-300",
                 openMenu === cat.id
@@ -364,9 +377,9 @@ export function ProductMegaMenu({
         </div>
       </div>
 
-      {/* In-Flow Expanding Mega-Dropdown Panel (No absolute overlap!) */}
+      {/* In-Flow Expanding Mega-Dropdown Panel with Live Hover Preview */}
       {openMenu && activeMega && (
-        <div className="border-t border-border/80 bg-background/50 p-6 lg:p-8 rounded-b-3xl animate-in fade-in slide-in-from-top-2 duration-300">
+        <div className="border-t border-border/80 bg-background/60 p-6 lg:p-8 rounded-b-3xl animate-in fade-in slide-in-from-top-2 duration-300">
           <div className="grid gap-8 lg:grid-cols-12 items-start">
             {/* Left Preview Column: Dynamic Live Image & Specs Card */}
             <div className="lg:col-span-4">
@@ -402,6 +415,7 @@ export function ProductMegaMenu({
                     {hoveredPreview?.productId ? (
                       <Link
                         to={`/products/${hoveredPreview.productId}`}
+                        onClick={() => setOpenMenu(null)}
                         className="inline-flex items-center gap-1.5 rounded-xl bg-brand-blue px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-graphite"
                       >
                         <span>View Specs</span>
@@ -411,6 +425,7 @@ export function ProductMegaMenu({
                       <button
                         onClick={() => {
                           if (activeMega.categoryFilter) onSelectCategory(activeMega.categoryFilter);
+                          setOpenMenu(null);
                         }}
                         className="inline-flex items-center gap-1.5 rounded-xl bg-graphite px-3.5 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-brand-blue"
                       >
@@ -436,6 +451,7 @@ export function ProductMegaMenu({
                         {item.productId ? (
                           <Link
                             to={`/products/${item.productId}`}
+                            onClick={() => setOpenMenu(null)}
                             onMouseEnter={() => handleHoverItem(item)}
                             className="group flex items-center justify-between rounded-xl px-3 py-2 text-xs sm:text-sm font-medium text-foreground transition-all duration-200 hover:bg-brand-blue/10 hover:text-brand-blue hover:pl-4"
                           >
@@ -454,6 +470,7 @@ export function ProductMegaMenu({
                             onClick={() => {
                               if (item.categoryParam) onSelectCategory(item.categoryParam);
                               else if (activeMega.categoryFilter) onSelectCategory(activeMega.categoryFilter);
+                              setOpenMenu(null);
                             }}
                             onMouseEnter={() => handleHoverItem(item)}
                             className="group flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-xs sm:text-sm font-medium text-foreground transition-all duration-200 hover:bg-brand-blue/10 hover:text-brand-blue hover:pl-4"
