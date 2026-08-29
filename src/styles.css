@@ -10,7 +10,7 @@
  */
 
 @theme inline {
-  --font-display: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif;
   --font-sans: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -107,9 +107,12 @@
   h1,
   h2,
   h3,
-  h4 {
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
+    font-weight: 700;
   }
 
   a, button {
