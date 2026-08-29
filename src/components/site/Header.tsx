@@ -29,32 +29,28 @@ export function Header() {
       <header
         className={cn(
           "pointer-events-auto mx-auto max-w-[1400px] rounded-2xl sm:rounded-3xl border transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-          "bg-white/15 hover:bg-white/20 backdrop-blur-2xl shadow-xl shadow-black/10",
-          scrolled
-            ? "border-white/40 bg-white/25 text-white shadow-2xl py-2.5 px-4 sm:px-7 backdrop-blur-3xl"
-            : "border-white/25 text-white py-3 px-5 sm:px-8 shadow-lg"
+          "bg-white/95 text-foreground backdrop-blur-2xl shadow-xl shadow-black/8 border-border/80",
+          scrolled ? "py-2.5 px-4 sm:px-7 shadow-2xl bg-white" : "py-3 px-5 sm:px-8"
         )}
       >
         <div className="flex items-center justify-between gap-6">
-          {/* Logo with clean white background chip for crisp contrast */}
+          {/* Logo */}
           <Link
             to="/"
-            className="flex shrink-0 items-center transition-transform duration-300 hover:scale-[1.03] active:scale-95"
+            className="flex shrink-0 items-center transition-transform duration-300 hover:scale-[1.02] active:scale-95"
             aria-label="Qualitech Connectronics home"
           >
-            <div className="rounded-xl bg-white/95 px-3 py-1.5 shadow-sm transition-all duration-300 hover:bg-white hover:shadow-md">
-              <img
-                src={logo}
-                alt="Qualitech Connectronics Private Limited"
-                className={cn(
-                  "w-auto transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                  scrolled ? "h-8 sm:h-9" : "h-9 sm:h-11"
-                )}
-              />
-            </div>
+            <img
+              src={logo}
+              alt="Qualitech Connectronics Private Limited"
+              className={cn(
+                "w-auto transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                scrolled ? "h-8 sm:h-9" : "h-9 sm:h-11"
+              )}
+            />
           </Link>
 
-          {/* Desktop Navigation Links */}
+          {/* Desktop Navigation Links - High Contrast & Sharp */}
           <nav className="hidden items-center gap-1 xl:flex">
             {nav.map((item) => (
               <NavLink
@@ -63,11 +59,11 @@ export function Header() {
                 end={item.to === "/"}
                 className={({ isActive }) =>
                   cn(
-                    "group relative rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300",
-                    "hover:bg-white/20 hover:text-white",
+                    "group relative rounded-xl px-4 py-2 text-sm font-bold transition-all duration-300",
+                    "hover:bg-brand-blue/10 hover:text-brand-blue",
                     isActive
-                      ? "text-white bg-white/25 font-bold shadow-xs backdrop-blur-md"
-                      : "text-white/85 hover:text-white"
+                      ? "text-brand-blue bg-brand-blue/10 shadow-xs"
+                      : "text-foreground/80 hover:text-foreground"
                   )
                 }
               >
@@ -77,7 +73,7 @@ export function Header() {
                     {/* Animated Underline Glow */}
                     <span
                       className={cn(
-                        "absolute inset-x-3 -bottom-0.5 h-[2.5px] rounded-full bg-cyan-300 shadow-[0_0_10px_rgba(103,232,249,0.9)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                        "absolute inset-x-3 -bottom-0.5 h-[2.5px] rounded-full bg-brand-blue shadow-[0_0_8px_rgba(59,130,246,0.8)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
                         isActive
                           ? "scale-x-100 opacity-100"
                           : "scale-x-0 opacity-0 group-hover:scale-x-75 group-hover:opacity-60"
@@ -91,13 +87,13 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-2.5 sm:gap-3">
-            {/* Cart Icon */}
+            {/* Cart Icon - High Contrast */}
             <Link
               to="/cart"
-              className="group relative grid size-11 place-items-center rounded-xl border border-white/25 bg-white/10 text-white transition-all duration-300 hover:border-white/50 hover:bg-white/25 hover:shadow-lg hover:scale-105 active:scale-95 backdrop-blur-md"
+              className="group relative grid size-11 place-items-center rounded-xl border border-border/90 bg-card text-foreground transition-all duration-300 hover:border-brand-blue hover:bg-brand-blue/10 hover:shadow-md hover:scale-105 active:scale-95"
               aria-label="Cart"
             >
-              <ShoppingCart className="size-[18px] transition-transform duration-300 group-hover:scale-110 text-white" />
+              <ShoppingCart className="size-[18px] transition-transform duration-300 group-hover:scale-110 text-foreground" />
               {count > 0 && (
                 <span className="absolute -right-1.5 -top-1.5 grid size-5 place-items-center rounded-full bg-brand-blue text-[10px] font-bold text-white shadow-md animate-in zoom-in duration-300">
                   {count}
@@ -105,12 +101,12 @@ export function Header() {
               )}
             </Link>
 
-            {/* Request a Quote Button */}
+            {/* Request a Quote Button - Dark Navy Pill */}
             <Link
               to="/contact?intent=quote"
               className={cn(
-                "hidden items-center gap-2 rounded-xl bg-white/95 px-5 text-sm font-bold text-graphite transition-all duration-300 shadow-md",
-                "hover:bg-white hover:shadow-xl hover:shadow-cyan-400/20 hover:scale-105 active:scale-95 md:inline-flex",
+                "hidden items-center gap-2 rounded-xl bg-graphite px-5 text-sm font-bold text-white transition-all duration-300 shadow-md",
+                "hover:bg-brand-blue hover:shadow-xl hover:shadow-brand-blue/25 hover:scale-105 active:scale-95 md:inline-flex",
                 scrolled ? "h-10" : "h-11"
               )}
             >
@@ -122,7 +118,7 @@ export function Header() {
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
-              className="grid size-11 place-items-center rounded-xl border border-white/25 bg-white/10 text-white transition-all duration-300 hover:bg-white/25 active:scale-95 backdrop-blur-md xl:hidden"
+              className="grid size-11 place-items-center rounded-xl border border-border/90 bg-card text-foreground transition-all duration-300 hover:bg-secondary hover:border-brand-blue active:scale-95 xl:hidden"
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
             >
@@ -149,7 +145,7 @@ export function Header() {
           className={cn(
             "overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] xl:hidden",
             open
-              ? "mt-4 max-h-[500px] border-t border-white/20 pt-3 opacity-100 bg-black/40 rounded-2xl p-4 shadow-2xl backdrop-blur-3xl"
+              ? "mt-4 max-h-[500px] border-t border-border pt-3 opacity-100 bg-card rounded-2xl p-4 shadow-xl"
               : "max-h-0 border-t-0 pt-0 opacity-0"
           )}
         >
@@ -159,7 +155,7 @@ export function Header() {
                 key={item.to}
                 to={item.to}
                 onClick={() => setOpen(false)}
-                className="rounded-xl px-3 py-2.5 text-sm font-medium text-white/95 transition-all duration-300 hover:bg-white/20 hover:text-white hover:pl-4"
+                className="rounded-xl px-3 py-2.5 text-sm font-bold text-foreground transition-all duration-300 hover:bg-brand-blue/10 hover:text-brand-blue hover:pl-4"
                 style={{ transitionDelay: open ? `${i * 35}ms` : "0ms" }}
               >
                 {item.label}
@@ -168,7 +164,7 @@ export function Header() {
             <Link
               to="/contact?intent=quote"
               onClick={() => setOpen(false)}
-              className="mt-3 inline-flex h-11 items-center justify-center rounded-xl bg-white text-sm font-bold text-graphite shadow-lg transition-all duration-300 hover:bg-white/90"
+              className="mt-3 inline-flex h-11 items-center justify-center rounded-xl bg-graphite text-sm font-bold text-white shadow-lg transition-all duration-300 hover:bg-brand-blue"
             >
               Request a Quote
             </Link>

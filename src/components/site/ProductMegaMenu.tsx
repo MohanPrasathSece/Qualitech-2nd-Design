@@ -322,7 +322,7 @@ export function ProductMegaMenu({
               "rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-300",
               activeCategory === "All" && !openMenu
                 ? "bg-graphite text-white shadow-md"
-                : "text-muted-foreground hover:bg-platinum hover:text-foreground"
+                : "text-foreground/80 hover:bg-brand-blue/10 hover:text-brand-blue"
             )}
           >
             All Products
@@ -342,14 +342,14 @@ export function ProductMegaMenu({
                   ? "bg-brand-blue text-white shadow-md"
                   : activeCategory.toLowerCase() === (cat.categoryFilter || "").toLowerCase()
                   ? "bg-graphite text-white shadow-sm"
-                  : "text-muted-foreground hover:bg-platinum hover:text-foreground"
+                  : "text-foreground/80 hover:bg-brand-blue/10 hover:text-brand-blue"
               )}
             >
               <span>{cat.label}</span>
               <ChevronDown
                 className={cn(
-                  "size-3.5 transition-transform duration-300 opacity-70 group-hover:opacity-100",
-                  openMenu === cat.id && "rotate-180"
+                  "size-3.5 transition-transform duration-300 opacity-80 group-hover:opacity-100",
+                  openMenu === cat.id && "rotate-180 text-white"
                 )}
               />
             </button>
@@ -360,18 +360,18 @@ export function ProductMegaMenu({
           {openMenu && (
             <button
               onClick={() => setOpenMenu(null)}
-              className="flex items-center gap-1 rounded-xl border border-border bg-platinum px-3 py-2 text-xs font-bold text-muted-foreground hover:text-foreground hover:bg-chrome transition-all"
+              className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-3.5 py-2 text-xs font-bold text-foreground hover:bg-secondary hover:text-brand-blue transition-all shadow-xs"
             >
-              <X className="size-3.5" />
+              <X className="size-3.5 text-foreground" />
               <span>Close Menu</span>
             </button>
           )}
 
           <Link
             to="/contact?intent=quote"
-            className="hidden items-center gap-2 rounded-xl bg-platinum px-4 py-2 text-xs font-bold text-foreground transition-all duration-300 hover:bg-brand-blue hover:text-white sm:inline-flex"
+            className="hidden items-center gap-2 rounded-xl bg-graphite px-4 py-2 text-xs font-bold text-white shadow-sm transition-all duration-300 hover:bg-brand-blue sm:inline-flex"
           >
-            <Sparkles className="size-3.5" />
+            <Sparkles className="size-3.5 text-brand-yellow" />
             <span>Custom Quoting</span>
           </Link>
         </div>
