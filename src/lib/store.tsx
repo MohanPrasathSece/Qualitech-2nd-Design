@@ -9,7 +9,7 @@ import {
 } from "react";
 import { seedProducts, type Product } from "@/data/products";
 
-const PRODUCTS_KEY = "qtc.products.v1";
+const PRODUCTS_KEY = "qtc.products.v3";
 const CART_KEY = "qtc.cart.v1";
 
 function read<T>(key: string, fallback: T): T {

@@ -57,6 +57,9 @@ const services = [
 ];
 
 const industryImages: Record<string, string> = {
+  communications: telecom,
+  automotive: power,
+  industrial: factory,
   telecommunications: telecom,
   power,
   defense,

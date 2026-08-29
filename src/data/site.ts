@@ -11,58 +11,70 @@ export const company = {
 
 export const nav = [
   { label: "Home", to: "/" },
-  { label: "About Us", to: "/about" },
-  { label: "Solutions", to: "/solutions" },
+  { label: "Connectors", to: "/products?category=Connectors" },
+  { label: "Cables", to: "/products?category=Cables" },
+  { label: "Fiber Optics", to: "/products?category=Fiber+Optics" },
+  { label: "Antennas", to: "/products?category=Antennas" },
+  { label: "Applications", to: "/solutions" },
   { label: "Facilities", to: "/facilities" },
-  { label: "Products", to: "/products" },
-  { label: "Industries", to: "/industries" },
-  { label: "Contact", to: "/contact" },
+  { label: "About Us", to: "/about" },
+  { label: "Contact Us", to: "/contact" },
 ] as const;
 
 export const stats = [
   { value: 1995, suffix: "", label: "Established" },
-  { value: 30, suffix: "+", label: "Years of Experience" },
-  { value: 0, literal: "OEM", label: "Focused Solutions" },
-  { value: 4, suffix: "+", label: "Key Industries" },
+  { value: 30, suffix: "+", label: "Years Experience" },
+  { value: 0, literal: "100%", label: "Tested Zero-Defect" },
+  { value: 5, suffix: "+", label: "Key Sectors" },
 ] as const;
 
 export const industries = [
   {
+    slug: "communications",
+    name: "Communications & Wireless",
+    note: "High-gain GNSS, 5G/LTE telemetry antennas, and fiber optic base station interconnects.",
+  },
+  {
+    slug: "automotive",
+    name: "Automotive & EV Charging",
+    note: "High-precision positioning, geofencing for charging networks, and rugged engine bay harnesses.",
+  },
+  {
+    slug: "industrial",
+    name: "Industrial & Asset Tracking",
+    note: "Drag-chain flex cables, sensor interconnects, and remote machine telematics.",
+  },
+  {
     slug: "telecommunications",
     name: "Telecommunications",
-    note: "Signal-critical harnesses and interconnects for network and transmission equipment.",
+    note: "Signal-critical harnesses and backplane interconnects for transmission racks.",
   },
   {
     slug: "power",
-    name: "Power",
-    note: "Harnessing and connector solutions for power distribution and control panels.",
+    name: "Power & Energy",
+    note: "Harnessing and heavy-duty modular connectors for power distribution and switchgear.",
   },
   {
     slug: "defense",
-    name: "Defense",
-    note: "Application-specific assemblies built to customer drawings and specifications.",
-  },
-  {
-    slug: "railways",
-    name: "Railways",
-    note: "Durable cable assemblies for rolling stock and signalling applications.",
+    name: "Defense & Aerospace",
+    note: "Mil-spec circular connector screened assemblies and ruggedized optical links.",
   },
 ] as const;
 
 export const whyQualitech = [
   {
     title: "Application-Specific",
-    body: "Solutions designed around individual requirements.",
+    body: "Custom RF, fiber, and copper solutions designed around individual OEM engineering requirements.",
   },
-  { title: "Quality Focused", body: "Reliable products for demanding applications." },
-  { title: "Experienced Team", body: "Decades of engineering and industry experience." },
-  { title: "Competitive Solutions", body: "Optimized resources without compromising quality." },
-  { title: "Timely Supply", body: "Focused on dependable and consistent delivery." },
+  { title: "Quality Focused", body: "100% automated continuity, pin-out, and pull-force verified." },
+  { title: "Experienced Team", body: "Over three decades of precision assembly and interconnect manufacturing." },
+  { title: "Comprehensive Customization", body: "Flexible cable lengths, jacket materials, and connector configurations." },
+  { title: "Timely OEM Supply", body: "Dependable prototyping and high-volume scheduled delivery contracts." },
 ] as const;
 
 export const companyCopy = [
-  "Qualitech was established in 1995 by a team of dedicated professionals. Having successfully managed the company for decades, Qualitech has grown into a leading provider of high quality custom built wire and cable harnesses to OEMs.",
-  "The right combination of dedicated and excellent manpower along with the latest technology is not only helping the company provide highly reliable cable harnesses but also helping in resource optimization, thus resulting in the best buy for our esteemed customers.",
-  "Our diversified clientele also establishes our strength in supplying application specific and customized products inline with individual needs, covering major sectors such as Telecommunications, Power, Defense and Railways.",
-  "Providing high quality harnesses at competitive prices and timely supplies has been Qualitech's motto, which has helped the company grow from strength to strength.",
+  "Qualitech Connectronics was established in 1995 by a team of dedicated engineering professionals. Having successfully managed the company for decades, Qualitech has grown into a leading provider of custom built wire and cable harnesses, high-performance antennas, fiber optic assemblies, and specialized connectors to OEMs.",
+  "The right combination of dedicated and excellent manpower along with state-of-the-art tooling is not only helping the company provide highly reliable interconnect systems but also assisting in resource optimization, resulting in the best value for our customers.",
+  "Our diversified portfolio establishes our strength in supplying application-specific and customized products inline with individual engineering briefs across Communications, Automotive & EV Charging, Industrial Automation, Telecommunications, Power, and Defense.",
+  "Providing high quality assemblies at competitive terms and dependable supplies has been Qualitech's guiding principle, driving the company from strength to strength.",
 ];
